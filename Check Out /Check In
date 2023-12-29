@@ -1,0 +1,59 @@
+import json
+from bs4 import BeautifulSoup
+import csv
+
+
+html_content = """
+<html>
+  <body>
+    <!-- HTML content containing the rates for the specific hotel ID -->
+  </body>
+</html>
+"""
+
+specific_hotel_id = 18482  # Replace with the specific hotel ID
+
+soup = BeautifulSoup(html_content, 'html.parser')
+rates = []
+
+for rate_container in soup.find_all('div', class_='rate-container'):
+    hotel_id = int(rate_container['data-hotel-id'])  
+    if hotel_id == specific_hotel_id:
+        room_name = rate_container.find('h2', class_='room-name').text
+        rate_name = rate_container.find('p', class_='rate-name').text
+        num_guests = rate_container.find('span', class_='num-guests').text
+        cancellation_policy = rate_container.find('p', class_='cancellation-policy').text
+        price = rate_container.find('span', class_='price').text
+        top_deal = 'MIGHT' in rate_container.text
+        currency = '$'  # Assuming all prices are in dollars
+
+        rate_info = {
+        
+            "hotel_id": 18482,
+            "room_name": "Double room (Compact)",
+            "rate_name":"$ 260 AUD",
+            "num_guests": 2,
+            "cancellation_policy": "Non-refundable",
+            "price": 217,
+            "top_deal": True,
+            "currency": "AUD"
+        }
+
+        rates.append(rate_info)
+
+
+with open('specific_hotel_rates.json', 'w') as json_file:
+    json.dump(rates, json_file, indent=2)
+print(json.dumps(rates, indent=2))
+data = [
+    {"hotel_id": 18482, "check-in": "2023-12-29", "check-out": "2023-12-30"},
+    {"hotel_id": 18482, "check-in": "2022-02-01", "check-out": "2022-02-03"}
+]
+
+with open('specific_hotel_bookings.csv', mode='w') as csv_file:
+    fieldnames = ['hotel_id', 'check-in', 'check-out']
+    writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+
+    writer.writeheader()
+    for item in data:
+        writer.writerow(item)
