@@ -1,0 +1,16 @@
+1) Room_name: Double Room(Compact)
+   Rate_name: $257 AUD
+   Number of Guests:2
+   Cancellation Policy:NO
+   Price: $217
+   Boolean value if the room is a Top Deal : TRUE
+   Currency : AUD
+ 
+#2nd photo 
+  2) Room Name : Deluxe Double Room
+     Rate_name: $260 AUD
+     Number of Guests:2
+     Cancellation Policy:No
+     Price : $220 AUD
+     Boolean value if the room is a Top Deal: True
+     Currency: AUD
